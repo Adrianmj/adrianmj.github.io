@@ -1,14 +1,32 @@
-<script type="text/javascript">
-    var recognition = new SpeechRecognition();
-    recognition.onresult = function(event) {
-      if (event.results.length > 0) {
-        q.value = event.results[0][0].transcript;
-        q.form.submit();
-      }
-    }
-  </script>
 
-  <form action="http://www.example.com/search">
-    <input type="search" id="q" name="q" size=60>
-    <input type="button" value="Click to Speak" onclick="recognition.start()">
-  </form>
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Web Speech API Demo</title>
+
+<h1>Web Speech API Demonstration</h1>
+<div id="status">
+</div>
+<p></p>
+<form action="http://google.com/search" method="get">
+  <input name="q" id="input_field" size="100">
+  <button onclick="reco.toggleStartStop()">
+  <img id="status_img" src="mic.gif" alt="Start">
+</button>
+</form>
+
+<button onclick="reco.toggleStartStop()" style="border: 0; background-color:transparent">
+  <img id="status_img" src="mic.gif" alt="Start"></button>
+
+<script src="webspeech.js"></script>
+<script>
+var reco = new WebSpeechRecognition();
+reco.statusText('status');
+reco.statusImage('status_img');
+reco.finalResults('input_field');
+
+reco.onEnd = function() {
+  if (reco.final_transcript != '') {
+    input_field.form.submit();
+  }
+};
+</script>
