@@ -1,105 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
 </head>
 <body>
-	
-</body>
-</html>
-<div id="transcript">&nbsp;</div>
-<br>
-<div id="instructions">&nbsp;</div>
-<div id="controls">
-<button id="start_button">Click to Start</button>
-</div>
+    <h2>Speech Recognition Demo</h2>
+    <section>
+        <textarea id="areaResult"></textarea>
+        <textarea id="finalTranscript"></textarea>
+        <div id="mic"><button>hola</button></div>
+    </section>
+    <script>
+        window.onload = function () {
 
-
-<style>
-    #controls {
-        text-align: center;
-    }
-    #start_button {
-        font-size: 16pt;
-    }
-    #transcript {
-        color: darkred;
-        font-size: 16pt;
-        border: 1px solid #ccc;
-        padding: 5px;
-        text-align: center;
-    }
-    #instructions {
-        color: darkblue;
-        font-size: 14pt;
-        text-align: center;
-    }
-</style>
-
-
-<script type="text/javascript">
-    var finalTranscript = '';
-    var recognizing = false;
-    $(document).ready(function() {
-        // check that your browser supports the API
-        if (!('webkitSpeechRecognition' in window)) {
-            alert("Sorry, your Browser does not support the Speech API");
-        } else {
-            // Create the recognition object and define the event handlers
             var recognition = new webkitSpeechRecognition();
-            recognition.continuous = true;         // keep processing input until stopped
-            recognition.interimResults = true;     // show interim results
-            recognition.lang = 'en-GB';           // specify the language
-            recognition.onstart = function() {
-                recognizing = true;
-                $('#instructions').html('Speak slowly and clearly');
-                $('#start_button').html('Click to Stop');
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = "es";
+
+            mic.addEventListener('click', function () {
+                areaResult.focus();
+                recognition.start();
+            });
+
+            //events
+
+            recognition.onaudiostart = function (event) {
+                console.log("onaudiostart");
             };
-            recognition.onerror = function(event) {
-                console.log("There was a recognition error...");
+
+            recognition.onsoundstart = function (event) {
+                console.log("onsoundstart");
             };
-            recognition.onend = function() {
-                recognizing = false;
-                $('#instructions').html('&nbsp;');
+
+            recognition.onspeechstart = function (event) {
+                console.log("onspeechstart");
             };
-            recognition.onresult = function(event) {
-                var interimTranscript = '';
-                // Assemble the transcript from the array of results
+
+            recognition.onspeechend = function (event) {
+                console.log("onspeechend");
+            };
+
+            recognition.onsoundend = function (event) {
+                console.log("onsoundend");
+
+            };
+
+            recognition.onaudioend = function (event) {
+                console.log("onaudioend");
+
+            };
+
+            rrecognition.onresult = function (event) {
+                console.log("onresult");
+                var interimResult = '',
+                    finalResult = '';
                 for (var i = event.resultIndex; i < event.results.length; ++i) {
                     if (event.results[i].isFinal) {
-                        finalTranscript += event.results[i][0].transcript;
+                        finalResult = event.results[i][0].transcript;
                     } else {
-                        interimTranscript += event.results[i][0].transcript;
+                        interimResult += event.results[i][0].transcript;
                     }
                 }
-                console.log("interim:  " + interimTranscript);
-                console.log("final:    " + finalTranscript);
-                // update the page
-                if(finalTranscript.length > 0) {
-                    $('#transcript').html(finalTranscript);
+                finalTranscript.value = finalResult;
+                areaResult.value = interimResult;
+
+                if (interimResult.indexOf('terminar') != -1)
                     recognition.stop();
-                    $('#start_button').html('Click to Start Again');
-                    recognizing = false;
-                }
             };
-            $("#start_button").click(function(e) {
-                e.preventDefault();
-                if (recognizing) {
-                    recognition.stop();
-                    $('#start_button').html('Click to Start Again');
-                    recognizing = false;
-                } else {
-                    finalTranscript = '';
-                    // Request access to the User's microphone and Start recognizing voice input
-                    recognition.start();
-                    $('#instructions').html('Allow the browser to use your Microphone');
-                    $('#start_button').html('waiting');
-                    $('#transcript').html('&nbsp;');
-                }
-            });
-        }
-    });
-</script>
+
+            recognition.onnomatch = function (event) {
+                console.log("onnomatch");
+            };
+
+            recognition.onerror = function (event) {
+                console.log("onerror: " + event);
+
+            };
+
+            recognition.onstart = function (event) {
+                console.log("onstart");
+            };
+
+            recognition.onend = function (event) {
+                console.log("onend");
+            };
+
+        };
+    </script>
+</body>
+</html>
