@@ -63,9 +63,11 @@
                         interimResult += event.results[i][0].transcript;
                     }
                 }
+                console.log(finalResult);
+                console.log("wena");
+
                 finalTranscript.value = finalResult;
                 areaResult.value = interimResult;
-                console.log(finalResult);
                 if (interimResult.indexOf('terminar') != -1)
                     recognition.stop();
             };
