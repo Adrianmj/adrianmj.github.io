@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Speech Recognition Demo</h2>
+    <section>
+        <textarea id="areaResult"></textarea>
+        <div id="mic"><button>hola</button></div>
+    </section>
+    <script>
+        window.onload = function () {
+
+            var recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = "es";
+
+            mic.addEventListener('click', function () {
+                areaResult.focus();
+                recognition.start();
+            });
+
+            //events
+
+            recognition.onaudiostart = function (event) {
+                console.log("onaudiostart");
+            };
+
+            recognition.onsoundstart = function (event) {
+                console.log("onsoundstart");
+            };
+
+            recognition.onspeechstart = function (event) {
+                console.log("onspeechstart");
+            };
+
+            recognition.onspeechend = function (event) {
+                console.log("onspeechend");
+            };
+
+            recognition.onsoundend = function (event) {
+                console.log("onsoundend");
+
+            };
+
+            recognition.onaudioend = function (event) {
+                console.log("onaudioend");
+
+            };
+
+            recognition.onresult = function (event) {
+                console.log("onresult");
+                var interimResult = '',
+                    finalResult = '';
+                for (var i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalResult = event.results[i][0].transcript;
+                    } else {
+                        interimResult += event.results[i][0].transcript;
+                    }
+                }
+               
+
+                areaResult.value = finalResult;
+                areaResult.value = interimResult;
+
+                if(finalResult == "abre Google"){
+                    window.open("http://www.google.es");
+
+                } else if(finalResult == "abre YouTube"){
+                    window.open("http://www.youtube.es");
+                }
+                else if(finalResult == "abre Facebook"){
+                    window.open("http://www.Facebook.es");
+                }
+                else if(finalResult == "abre YouTube"){
+                    window.open("http://www.youtube.es");
+                }
+                else if(finalResult == "abre Wikipedia"){
+                    window.open("http://www.wikipedia.es");
+                }
+
+
+                
+                if (interimResult.indexOf('terminar') != -1)
+                    recognition.stop();
+            };
+
+            recognition.onnomatch = function (event) {
+                console.log("onnomatch");
+            };
+
+            recognition.onerror = function (event) {
+                console.log("onerror: " + event);
+
+            };
+
+            recognition.onstart = function (event) {
+                console.log("onstart");
+            };
+
+            recognition.onend = function (event) {
+                console.log("onend");
+            };
+
+        };
+    </script>
+</body>
+</html>
