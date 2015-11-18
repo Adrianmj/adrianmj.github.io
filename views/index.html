@@ -66,17 +66,24 @@
 
                 areaResult.value = finalResult;
                 areaResult.value = interimResult;
-                switch(finalResult){
-                    case "abre YouTube":
-                        window.open("http://www.youtube.es");
-                    case "abre Google":
-                        window.open("http://www.google.es");
-                    case "abre Facebook":
-                        window.open("http://www.facebook.es");
-                    case "abre Wikipedia":
-                        window.open("http://www.wikipedia.es");
 
+                if(finalResult == "abre Google"){
+                    window.open("http://www.google.es");
+
+                } else if(finalResult == "abre YouTube"){
+                    window.open("http://www.youtube.es");
                 }
+                else if(finalResult == "abre Facebook"){
+                    window.open("http://www.Facebook.es");
+                }
+                else if(finalResult == "abre YouTube"){
+                    window.open("http://www.youtube.es");
+                }
+                else if(finalResult == "abre Wikipedia"){
+                    window.open("http://www.wikipedia.es");
+                }
+
+
                 
                 if (interimResult.indexOf('terminar') != -1)
                     recognition.stop();
