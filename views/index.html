@@ -8,7 +8,6 @@
     <h2>Speech Recognition Demo</h2>
     <section>
         <textarea id="areaResult"></textarea>
-        <textarea id="finalTranscript"></textarea>
         <div id="mic"><button>hola</button></div>
     </section>
     <script>
@@ -63,11 +62,22 @@
                         interimResult += event.results[i][0].transcript;
                     }
                 }
-                console.log(finalResult);
-                console.log("wena");
+               
 
-                finalTranscript.value = finalResult;
+                areaResult.value = finalResult;
                 areaResult.value = interimResult;
+                switch(finalResult){
+                    case "abre YouTube":
+                        window.open("http://www.youtube.es");
+                    case "abre Google":
+                        window.open("http://www.google.es");
+                    case "abre Facebook":
+                        window.open("http://www.facebook.es");
+                    case "abre Wikipedia":
+                        window.open("http://www.wikipedia.es");
+
+                }
+                
                 if (interimResult.indexOf('terminar') != -1)
                     recognition.stop();
             };
