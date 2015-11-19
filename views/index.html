@@ -1,26 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-    <link href="style.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Reconocimiento de voz.</title>
 </head>
 <body>
-    <h2>Speech Recognition Demo</h2>
+    <h2>Práctica de Reconocimiento de voz (Interfaces Inteligentes)</h2>
     <section>
-        <textarea id="areaResult"></textarea>
-        <div id="mic"><button>hola</button></div>
+        <textarea readonly id="areaResult" style="width: 300px; height: 150px; resize:none">Digale la página que desea abrir</textarea>
+        <div id="mic"><button type="button" id="button1" onclick="runFunction()" >Start</button></div>
     </section>
     <script>
+        var escuchando = false;
+        function runFunction(){
+            var button = document.getElementById("button1");
+            if(escuchando == false){
+                button.innerText = "Stop";    
+            }else{
+                button.innerText = "Start";
+            }
+            
+        }
         window.onload = function () {
-
             var recognition = new webkitSpeechRecognition();
             recognition.continuous = true;
             recognition.interimResults = true;
             recognition.lang = "es";
 
             mic.addEventListener('click', function () {
+
                 areaResult.focus();
-                recognition.start();
+                
+
+                if(escuchando==false){
+                    recognition.start();
+                    escuchando=true;
+                }else{
+                    escuchando = false;
+                    recognition.stop();
+                }
+
             });
 
             //events
@@ -79,8 +98,11 @@
                 else if(finalResult == "abre YouTube"){
                     window.open("http://www.youtube.es");
                 }
+                else if(finalResult == "abre Twitter"){
+                    window.open("http://www.twitter.com");
+                }
                 else if(finalResult == "abre Wikipedia"){
-                    window.open("http://www.wikipedia.es");
+                    window.open("http://www.es.wikipedia.org");
                 }
 
 
